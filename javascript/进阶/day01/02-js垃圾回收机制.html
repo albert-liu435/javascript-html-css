@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+
+    /*
+      全局作用域：
+        <script>标签 和.js 文件 的[最外层] 就是所谓的全局作用域，在此声明的变量在函数内部也可以被访问.全局作用域中声明的变量，任何其它作用域都可以被访问
+
+      注意:
+        1.为 window 对象动态添加的属性默认也是全局的，不推荐!
+        2.函数中未使用任何关键字声明的变量为全局变量，不推荐!! !
+        3，尽可能少的声明全局变量，防止全局变量被污染
+    
+    */
+
+    for (let i = 1; i <= 3; i++) {
+
+    }
+    let num = 10
+    function fn() {
+      const str = 'andy'
+      // str = 'lily'
+      console.log(str)
+    }
+    fn()
+    fn()
+    fn()
+  </script>
+</body>
+
+</html>
