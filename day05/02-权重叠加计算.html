@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /*
+			场景:如果是复合选择器，此时需要通过权重叠加计算方法，判断最终哪个选择器优先级最高会生效
+比较规则:
+		先比较第一级数字，如果比较出来了，之后的统统不不1 
+		U如果第一级数字相同，此时再去比较第二级数字，如果比较出来了，之后的统统不看
+		如果最终所有数字都相同，表示优先级相同，则比较层叠性(谁写在下面，谁说了算!)
+		注意点: !important如果不是继承，则权重最高，天下第一!
+			*/
+
+      /* #one {
+      color: red;
+    }
+
+    .son {
+      color: blue;
+    }
+
+    p {
+      color: green;
+    } */
+
+      /* (行内, id, 类, 标签) */
+
+      /* (0, 1, 0, 1) */
+      div #one {
+        color: orange;
+      }
+
+      /* (0, 0, 2, 0) */
+      .father .son {
+        color: skyblue;
+      }
+
+      /* 0, 0, 1, 1 */
+      .father p {
+        color: purple;
+      }
+
+      /* 0, 0, 0, 2 */
+      div p {
+        color: pink;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="father">
+      <p class="son" id="one">我是一个标签</p>
+    </div>
+  </body>
+</html>
