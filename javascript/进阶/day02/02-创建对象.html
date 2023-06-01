@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
+  <body>
+    <script>
+      //1、利用对象字面量创建对象
+      const o = {
+        name: "佩奇",
+      };
+      console.log(o);
 
-<body>
-  <script>
-    // const obj = new Object()
-    // obj.uname = 'pink老师'
-    // console.log(obj)
-    const obj = new Object({ uname: 'pink' })
-    console.log(obj)
-  </script>
-</body>
-
+      //2、利用new Object 创建对象
+      // const obj = new Object()
+      // obj.uname = 'pink老师'
+      // console.log(obj)
+      const obj = new Object({ uname: "pink" });
+      console.log(obj);
+    </script>
+  </body>
 </html>
