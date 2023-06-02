@@ -11,15 +11,18 @@
       }
     </style>
   </head>
+
   <body>
     <button class="pink">按钮1</button>
     <button>按钮2</button>
     <button>按钮3</button>
     <button>按钮4</button>
-
     <script>
+      /*https://www.runoob.com/jsref/met-document-queryselectorall.html*/
+      //获取所有的button标签列表
       let bts = document.querySelectorAll("button");
       for (let i = 0; i < bts.length; i++) {
+        //遍历并对每个标签天剑click事件监听
         bts[i].addEventListener("click", function () {
           document.querySelector(".pink").className = "";
           this.className = "pink";
