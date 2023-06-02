@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
+      /*
+      背景图平铺方式
+        属性名：background-repeat（bgr) 
+      */
       div {
         width: 600px;
         height: 600px;
@@ -16,7 +20,7 @@
 				背景图片仅仅是指给盒子起到装饰效果，类似于背景颜色，是不能撑开盒子的
 				*/
         background-image: url(images/1.jpg);
-
+        background-repeat: repeat;
         /*(默认值) 水平和垂直方向都平铺*/
         /* background-repeat: repeat; */
         /* 不平铺: 图片只显示一个 */
