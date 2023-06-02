@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- 关系: 样式表 -->
+    <link rel="stylesheet" href="my.css" />
+  </head>
+  <body>
+    <!-- CSS常见的引入方式：
+	1、内嵌式
+	2、外联式
+	3、行内式 -->
+
+    <table border="1" width="600" height="400">
+      <!-- 表格大标题：表示表格整体大标题，默认在表格整体顶部居中位管显示 -->
+      <caption>
+        <strong>CSS三种引入方式的特点</strong>
+      </caption>
+
+      <!-- tr表格每行，可用于包裹td -->
+      <!-- td表格单元格，可用于包裹内容 -->
+
+      <tr>
+        <!-- th:表格单元格，表示一列小标题，通常用于表格第一行，默认内部文字加粗并居中显示 -->
+        <th>引入方式</th>
+        <th>书写位置</th>
+        <th>作用范围</th>
+        <th>使用场景</th>
+      </tr>
+      <tr>
+        <td>内嵌式</td>
+        <td>CSS卸载style标签中</td>
+        <td>当前页面</td>
+        <td>小案例</td>
+      </tr>
+      <tr>
+        <td>外联式</td>
+        <td>CSS写在单独的css文件中，通过link标签引入</td>
+        <td>多个页面</td>
+        <td>项目中</td>
+      </tr>
+      <tr>
+        <td>行内式</td>
+        <td>CSS写在标签的style属性中</td>
+        <td>当前标签</td>
+        <td>配合js使用</td>
+      </tr>
+    </table>
+
+    <!-- css到底能写在哪里 -->
+    <p>这是p标签</p>
+    <div style="color: green; font-size: 30px">这是div标签</div>
+    <div>这个div是什么颜色</div>
+  </body>
+</html>

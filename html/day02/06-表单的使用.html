@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 场景:在网页中显示收集用户信息的表单效果，如:登录页、注册页 -->
+
+    <!-- input标签可以通过type属性值的不同，展示不同效果 -->
+
+    <!-- 写什么就显示什么 -->
+    <!-- 文本框，用于输入单行文本 -->
+    文本框: <input type="text" />
+    <br />
+    <br />
+    <!-- 书写的内容都会变成点点显示 -->
+    <!-- 密码框，用于输入密码 -->
+    密码框: <input type="password" />
+
+    <br />
+    <br />
+    <!-- 单选框，用于多选一 -->
+    单选框: <input type="radio" />
+
+    <br />
+    <br />
+    <!-- 多选框，用于多选多 -->
+    多选框: <input type="checkbox" />
+
+    <br />
+    <br />
+
+    <!-- 文件选择，用于之后上传文件 -->
+    上传文件: <input type="file" />
+    <br />
+    <br />
+
+    <!-- 提交按钮，用于提交 -->
+    提交按钮：<input type="submit" />
+    <br />
+    <br />
+    <!-- 重曾按钮，用于重置 -->
+    重置按钮： <input type="reset" />
+    <br />
+    <br />
+    <!-- 普通按钮，默认无功能，之后配合js添加功能 -->
+    不同按钮：<input type="button" />
+    <br />
+    <br />
+    <!-- 在网页中显示输入单行文本的表单控件
+		占位符。提示用户输入内容的文本 -->
+    <input type="text" placeholder="请输入用户名" />
+    <input type="password" placeholder="请输入密码" />
+
+    <br />
+    <br />
+    <!-- 在网页中显示多选一的单选表单控件 -->
+    <!-- 分组。有相同name属性值的单选框为一组，一组中同时只能有一个被选中 -->
+    性别: <input type="radio" name="sex" />男
+    <!-- 默认选中 -->
+    <input type="radio" name="sex" checked />女
+
+    <br />
+    <br />
+    <!-- 在网页中显示多选多的多选表单控件 -->
+    <input type="checkbox" checked />
+
+    <br />
+    <br />
+    <!-- multiple:多文件选择 -->
+    <input type="file" multiple />
+  </body>
+</html>

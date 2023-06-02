@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /*
+      CSS 特
+        继承性
+          继承性：子级默认继承父级的文字控制属性
+      层叠性
+        特点：
+        • 相同的属性会覆盖：后面的 CSS 属性覆盖前面的 CSS 属性
+        • 不同的属性会叠加：不同的 CSS 属性都生效
+      优先级
+        优先级：也叫权重，当一个标签使用了多种选择器时，基于不同种类的选择器的匹配规则
+        规则：选择器优先级高的样式生效。
+        公式：通配符选择器 < 标签选择器 < 类选择器 < id选择器 < 行内样式 < !important
+        （选中标签的范围越大，优先级越低）
+        
+			特性: 不同选择器具有不同的优先级，优先级高的选择器样式会覆盖优先级低选择器样式
+			优先级公式:
+				继承< 配符选择器< 签选择器 < 选择器 < id选择器 < 内样式< !important
+			注意点:
+				1. !important写在属性值的后面，分号的前面!
+				2.!important不能提升继承的优先级，只要是继承优先级最低!
+				实际开发中不建议使用 !important 
+			
+			*/
+
+      #box {
+        color: orange;
+      }
+
+      .box {
+        color: blue;
+      }
+
+      div {
+        color: green !important;
+      }
+
+      body {
+        color: red;
+      }
+
+      /* !important不要给继承的添加, 自己有样式无法继承父级样式 */
+    </style>
+  </head>
+  <body>
+    <!-- 意义: 当一个标签使用了多个选择器, 样式冲突的时候, 到底谁生效 -->
+    <div class="box" id="box" style="color: pink">测试优先级</div>
+  </body>
+</html>

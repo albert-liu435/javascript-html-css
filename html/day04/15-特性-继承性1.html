@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /*
+			如果元素有浏览器默认样式，此时继承性依然存在，但是优先显示浏览器的默认样式
+			a标签的color会继承失效
+					其实color属性继承下来了，但是被浏览器默认设置的样式给覆盖掉了
+			h系列标签的font-size会继承失效
+					其实font-size属性继承下来了，但是被浏览器默认设置的样式给覆盖掉了
+			*/
+
+      div {
+        color: red;
+        font-size: 12px;
+      }
+
+      a {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <a href="#">超链接</a>
+      <h1>一级标题</h1>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      /*
+			特性:
+				1. 给同一个标签设置不同的样式  此时样式会层否看加  会共同作用在标签上
+				2. 给同一个标签设置相同的样式  此时样式会层覆盖 一 最终写在最后的样式会生效
+			注意点:
+				1. 当样式冲突时，只有当选择器优先级相同时，才能通过层叠性判断结果
+			*/
+
+      div {
+        color: red;
+        color: green;
+      }
+
+      .box {
+        font-size: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">文字</div>
+  </body>
+</html>

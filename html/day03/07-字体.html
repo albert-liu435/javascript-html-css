@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      p {
+        /*字体大小：数字+px,谷歌浏览器默认字体大小为16px*/
+        /* font-size 属性必须有单位，否则属性不生效 */
+        font-size: 30px;
+      }
+      div {
+        /*
+        字体粗细，正常400，加粗700
+        正常：normal,加粗：bold
+        */
+        /* 加粗 */
+        font-weight: 700;
+        /*
+        字体样式(是否倾斜)：清除文字默认的倾斜效果
+        正常：normal
+        倾斜：italic
+        */
+
+        /* 倾斜 */
+        font-style: italic;
+        /*字体族*/
+        /* font-family: 宋体; */
+        /* 如果用户电脑没有安装微软雅黑, 就按黑体显示文字 */
+        /* 如果电脑没有安装黑体, 就按任意一种非衬线字体系列显示 */
+        font-family: 微软雅黑, 黑体, sans-serif;
+      }
+
+      h1 {
+        /* 不加粗 */
+        font-weight: 400;
+      }
+      em {
+        /* 正常的, 不倾斜 */
+        font-style: normal;
+      }
+    </style>
+  </head>
+  <body>
+    字体大小 font-size
+
+    <!-- 默认字号是16 -->
+    <p>段落文字</p>
+
+    <hr />
+    <hr />
+    <div>这是div</div>
+    <h1>一级标题</h1>
+    <em>em</em>
+  </body>
+</html>
