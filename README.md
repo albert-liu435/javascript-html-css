@@ -1,1 +1,2 @@
-javaascript/webaapi/day03
+javascript/webaapi/day03
+javascript/ajax/day01
