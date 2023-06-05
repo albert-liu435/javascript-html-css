@@ -1,21 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
+  <body>
+    <script>
+      //1、利用对象字面量创建对象
+      const o = {
+        name: "佩奇",
+      };
 
-<body>
-  <script>
-    // const obj = new Object()
-    // obj.uname = 'pink老师'
-    // console.log(obj)
-    const obj = new Object({ uname: 'pink' })
-    console.log(obj)
-  </script>
-</body>
+      // const obj = new Object()
+      // obj.uname = 'pink老师'
+      // console.log(obj)
+      //2、利用 new Object 创建对象
+      const obj = new Object({ uname: "pink" });
+      console.log(obj);
 
+      //3、利用构造函数创建对
+      //构造函数 ：是一种特殊的函数，主要用来初始化对象
+      // 使用场景：常规的 {...} 语法允许创建一个对象。比如我们创建了佩奇的对象，继续创建乔治的对象还需要重新写一
+      //遍，此时可以通过构造函数来快速创建多个类似的对象
+
+      function pig(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      const pi = new pig("佩奇", 23);
+      console.log(pi);
+    </script>
+  </body>
 </html>
