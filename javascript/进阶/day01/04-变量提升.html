@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
+  <body>
+    <script>
+      //注意：
+      //1. 变量在未声明即被访问时会报语法错误
+      //2. 变量在var声明之前即被访问，变量的值为 undefined
+      //3. let/const 声明的变量不存在变量提升
+      //4. 变量提升出现在相同作用域当中
+      //5. 实际开发中推荐先声明再访问变量
 
-<body>
-  <script>
-    // 1. 把所有var声明的变量提升到 当前作用域的最前面
-    // 2. 只提升声明， 不提升赋值
-    // var num
-    // console.log(num + '件')
-    // num = 10
-    // console.log(num)
+      // 1. 把所有var声明的变量提升到 当前作用域的最前面
+      // 2. 只提升声明， 不提升赋值
+      // var num
+      // console.log(num + '件')
+      // num = 10
+      // console.log(num)
 
-    function fn() {
-      console.log(num)
-      var num = 10
-    }
-    fn()
-  </script>
-</body>
-
+      function fn() {
+        console.log(num);
+        var num = 10;
+      }
+      fn();
+    </script>
+  </body>
 </html>
