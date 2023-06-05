@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
+  <body>
+    <script>
+      //首先浅拷贝和深拷贝只针对引用类型
+      //浅拷贝：拷贝的是地址
 
-<body>
-  <script>
-    const obj = {
-      uname: 'pink',
-      age: 18,
-      family: {
-        baby: '小pink'
-      }
-    }
-    // 浅拷贝
-    // const o = { ...obj }
-    // console.log(o)
-    // o.age = 20
-    // console.log(o)
-    // console.log(obj)
-    const o = {}
-    Object.assign(o, obj)
-    o.age = 20
-    o.family.baby = '老pink'
-    console.log(o)
-    console.log(obj)
-  </script>
-</body>
+      //如果是简单数据类型拷贝值，引用数据类型拷贝的是地址 (简单理解： 如果是单层对象，没问题，如果有多层就有问题)
 
+      //1. 直接赋值和浅拷贝有什么区别？
+      //直接赋值的方法，只要是对象，都会相互影响，因为是直接拷贝对象栈里面的地址
+      //浅拷贝如果是一层对象，不相互影响，如果出现多层对象拷贝还会相互影响
+      //2. 浅拷贝怎么理解？
+      //拷贝对象之后，里面的属性值是简单数据类型直接拷贝值
+      //如果属性值是引用数据类型则拷贝的是地址
+
+      const obj = {
+        uname: "pink",
+        age: 18,
+        family: {
+          baby: "小pink",
+        },
+      };
+      // 浅拷贝
+      // const o = { ...obj }
+      // console.log(o)
+      // o.age = 20
+      // console.log(o)
+      // console.log(obj)
+      const o = {};
+      Object.assign(o, obj);
+      o.uname = "pin";
+      o.family.baby = "老pink";
+      console.log(o);
+      console.log(obj);
+    </script>
+  </body>
 </html>
