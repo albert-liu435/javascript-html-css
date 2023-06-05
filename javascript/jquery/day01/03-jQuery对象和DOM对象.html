@@ -19,6 +19,16 @@
     <div></div>
     <span></span>
     <script>
+
+      //1. 用原生 JS 获取来的对象就是 DOM 对象
+      //2. jQuery 方法获取的元素就是 jQuery 对象。
+      //3. jQuery 对象本质是： 利用$对DOM 对象包装后产生的对象（伪数组形式存储）。
+
+      //只有 jQuery 对象才能使用 jQuery 方法，DOM 对象则使用原生的 JavaScirpt 方法。
+
+
+
+
       // 1. DOM 对象：  用原生js获取过来的对象就是DOM对象
       var myDiv = document.querySelector("div"); // myDiv 是DOM对象
       var mySpan = document.querySelector("span"); // mySpan 是DOM对象
