@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- https://blog.csdn.net/qq_38836082/article/details/80825796 -->
+    <!-- version 1 -->
+    <!-- <script language="javascript" type="text/javascript">
+      var jQuery = function () {
+        // 函数体
+      };
+    </script> -->
+
+    <!-- version 2 -->
+    <!-- <script language="javascript" type="text/javascript">
+      var jQuery = function () {
+        // 函数体
+
+        //jQuery.prototype = {
+        //  // 扩展的原型对象
+        //};
+
+        jQuery.fn = jQuery.prototype = {
+          // 扩展的原型对象
+        };
+      };
+    </script> -->
+
+    <!-- version 3 -->
+    <!-- <script language="javascript" type="text/javascript">
+      var $ = (jQuery = function () {});
+      jQuery.fn = jQuery.prototype = {
+        jquery: "1.3.2", // 原型属性
+
+        size: function () {
+          // 原型方法
+
+          return this.length;
+        },
+      };
+
+      var my = jQuery();
+      console.log(my);
+
+      console.log($.prototype);
+      console.log($.prototype.jquery);
+    </script> -->
+
+    <!-- version 4 -->
+    <!-- <script type="text/javascript">
+      var $ = (jQuery = function () {
+        return new jQuery(); // 返回类的实例
+      });
+
+      jQuery.fn = jQuery.prototype = {
+        jquery: "1.3.2", // 原型属性
+        size: function () {
+          // 原型方法
+          return this.length;
+        },
+      };
+
+      alert($().jquery);
+      alert($().size());
+    </script> -->
+
+    <!-- version 5 -->
+    <!-- <script type="text/javascript">
+      var $ = (jQuery = function () {
+        return jQuery.fn.init(); // 调用原型 init()
+      });
+
+      jQuery.fn = jQuery.prototype = {
+        init: function () {
+          // 在初始化原型方法中返回实例的引用
+          return this;
+        },
+        jquery: "1.3.2", // 原型属性
+        size: function () {
+          // 原型方法
+          return this.length;
+        },
+      };
+
+      alert($().jquery); // 调用属性，返回 "1.3.2"
+      alert($().size()); // 调用方法，返回 undefined
+    </script> -->
+
+    <!-- version 6 -->
+    <!-- <script type="text/javascript">
+      var $ = (jQuery = function () {
+        return jQuery.fn.init(); // 调用原型 init()
+      });
+
+      jQuery.fn = jQuery.prototype = {
+        init: function () {
+          // 在初始化原型方法中返回实例的引用
+          this.length = 0;
+          this.test = function () {
+            return this.length;
+          };
+          return this;
+        },
+        jquery: "1.3.2", // 原型属性
+        //相当于把length设置为了1
+        length: 1,
+        size: function () {
+          console.log(length);
+          // 原型方法
+          return this.length;
+        },
+      };
+
+      console.log($());
+      alert($().jquery); // 返回 "1.3.2"
+      alert($().test()); // 返回 0
+      alert($().size()); // 返回 0
+    </script> -->
+
+    <!-- version 7 -->
+    <!-- <script type="text/javascript">
+      var $ = (jQuery = function () {
+        return new jQuery.fn.init(); // 实例化 init 初始化类型，分隔作用域
+      });
+
+      jQuery.fn = jQuery.prototype = {
+        init: function () {
+          // 在初始化原型方法中返回实例的引用
+          this.length = 0;
+          this.test = function () {
+            return this.length;
+          };
+          return this;
+        },
+        jquery: "1.3.2", // 原型属性
+        length: 1,
+        size: function () {
+          // 原型方法
+          return this.length;
+        },
+      };
+
+      console.log($());
+      console.log($().jquery); // 返回 undefined
+      console.log($().test()); // 返回 0
+      console.log($().size()); // 抛出异常
+    </script> -->
+
+    <!-- version 8 -->
+    <!-- <script type="text/javascript">
+      var $ = (jQuery = function () {
+        return new jQuery.fn.init(); // 实例化 init 初始化类型，分隔作用域
+      });
+
+      jQuery.fn = jQuery.prototype = {
+        init: function () {
+          // 在初始化原型方法中返回实例的引用
+          this.length = 0;
+          this.test = function () {
+            return this.length;
+          };
+          return this;
+        },
+        jquery: "1.3.2", // 原型属性
+        length: 1,
+        size: function () {
+          // 原型方法
+          return this.length;
+        },
+      };
+
+      jQuery.fn.init.prototype = jQuery.fn; // 使用 jQuery 的原型对象覆盖 init 的原型对象
+      console.log($());
+      console.log($().jquery); // 返回 "1.3.2"
+      console.log($().test()); // 返回 0
+      console.log($().size()); // 返回 0
+    </script> -->
+
+    <!-- jQuery() 函数包含两个参数 selector 和 context ，其中 selector 表示选择器，而 context 表示选择的内容范围，它表示一个 DOM 元素。为了简化操作，我们假设选择器的类型仅限定为标签选择器 -->
+    <div></div>
+    <div></div>
+    <div></div>
+    <script type="text/javascript">
+      var $ = (jQuery = function (selector, context) {
+        // 定义类
+        return new jQuery.fn.init(selector, context); // 返回选择器的实例
+      });
+
+      jQuery.fn = jQuery.prototype = {
+        // jQuery 类的原型对象
+        init: function (selector, context) {
+          console.log(selector);
+          // 定义选择器构造器
+          selector = selector || document; // 设置默认值为 document
+          console.log(selector);
+          context = context || document; // 设置默认值为 document
+
+          console.log(selector.nodeType);
+          if (selector.nodeType) {
+            // 如果选择符为节点对象
+            this[0] = selector; // 把参数节点传递给实例对象的数组
+            this.length = 1; // 并设置实例对象的 length 属性，定义包含的元素个数
+            this.context = selector; // 设置实例的属性，返回选择范围
+            return this; // 返回当前实例
+          }
+          console.log(typeof selector === "string");
+          if (typeof selector === "string") {
+            // 如果选择符是字符串
+            var e = context.getElementsByTagName(selector); // 获取指定名称的元素
+            for (var i = 0; i < e.length; i++) {
+              // 遍历元素集合，并把所有元素填入到当前实例数组中
+              this[i] = e[i];
+            }
+            this.length = e.length; // 设置实例的 length 属性，即定义包含的元素个数
+            this.context = context; // 设置实例的属性，返回选择范围
+            return this; // 返回当前实例
+          } else {
+            this.length = 0; // 否则，设置实例的 length 属性值为 0
+            this.context = context; // 设置实例的属性，返回选择范围
+            return this; // 返回当前实例
+          }
+        },
+        jquery: "1.3.2", // 原型属性
+        size: function () {
+          // 原型方法
+          return this.length;
+        },
+      };
+
+      jQuery.fn.init.prototype = jQuery.fn; // 使用 jQuery 的原型对象覆盖 init 的原型对象
+      console.log($("div").size()); // 返回 3
+    </script>
+  </body>
+</html>

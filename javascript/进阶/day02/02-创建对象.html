@@ -32,6 +32,20 @@
       }
       const pi = new pig("佩奇", 23);
       console.log(pi);
+
+      function pigw(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+
+      const piw = new pigw();
+      console.log(piw);
+
+      function a(name) {
+        console.log(name);
+      }
+
+      a();
     </script>
   </body>
 </html>
