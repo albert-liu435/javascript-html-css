@@ -1,4 +1,16 @@
 //https://blog.csdn.net/lalala_dxf/article/details/124098349
+
+// 正则表达式（Regular Expression，在代码中常简写为regex、regexp或RE）使用单个字符串来描述、匹配一系列符合某个句法规则的字符串搜索模式。
+
+// 也就是说，正则表达式是
+// （1）由一个字符序列形成的搜索模式
+// （2）可以通过搜索模式来描述你要查询的内容
+// （3）可以是一个简单的字符，或一个更复杂的模式
+// （4）可用于所有文本搜索和文本替换的操作
+// ————————————————
+// 版权声明：本文为CSDN博主「持久的棒棒君」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+// 原文链接：https://blog.csdn.net/lalala_dxf/article/details/124098349
+
 // 1、正则表达式的创建
 //			1.1 字面量创建
 //   				语法如下：var reg = /正则表达式/修饰符
@@ -51,3 +63,37 @@ console.log(reg3.exec(str));
 
 console.log(reg4.exec(str));
 //null
+
+// 1)如果正则表达式中有修饰符"g",这时，在正则表达式的实例reg中会维护lastIndex属性，记录下一次开始的位置，当第二次执行exec的时候，从lastIndex开始检索。
+// 2)如果正则表达式中没有修饰符"g",不会维护lastIndex属性，每次执行从开始位置检索。
+
+// （lastIndex从字面上来讲就是最后一个索引，实际上它的意思是正则表达式开始下一次查找的索引位置，第一次的时候总是为0的，第一次查找完了的时候会把lastIndex的值设为匹配到得字符串的最后一个字符的索引位置加1，
+//第二次查找的时候会从lastIndex这个位置开始，后面的以此类推。如果没有找到，则会把lastIndex重置为0。）
+// ————————————————
+// 版权声明：本文为CSDN博主「持久的棒棒君」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+// 原文链接：https://blog.csdn.net/lalala_dxf/article/details/124098349
+
+// test
+// 用来测试待检测的字符串中是否有可以匹配到正则表达式的字符串，如果有返回true，否则返回false
+
+var str = "hello world";
+var reg1 = /world/;
+var reg2 = /regex/;
+console.log(reg1.test(str)); //返回true
+console.log(reg2.test(str)); //返回false
+// 1)如果正则表达式中有修饰符"g",这时，在reg中会维护lastIndex属性，用来记录下一次开始的位置，当第二次执行test的时候，从lastIndex开始检索。
+// 2)如果正则表达式中没有修饰符"g",不会维护lastIndex属性，每次执行从开始位置检索。
+
+// toString/toLocaleString
+// 把正则表达式的内容转化成字面量形式字符串，和有本地特色的字符串
+
+var reg1 = /hello/;
+console.log(reg1.toString()); // /hello/
+console.log(reg1.toLocaleString()); // /hello/
+
+// valueOf
+// 返回正则表达式本身
+
+var reg1 = /hello/;
+console.log(reg1.valueOf()); // /hello/ 返回正则表达式本身
+console.log(reg1); // /hello/
