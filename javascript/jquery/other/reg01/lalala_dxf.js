@@ -42,7 +42,8 @@
 
 // 3、正则表达式实例方法
 // 		exec
-// 		可用来匹配字符串中符合正则表达式的字符串。如果匹配到，返回值是一个result数组:[匹配的内容，index: 在str中匹配的起始位置，input: 参数字符串，groups: undefined]，没匹配到则返回null
+// 		可用来匹配字符串中符合正则表达式的字符串。如果匹配到，返回值是一个result数组:
+//[匹配的内容，index: 在str中匹配的起始位置，input: 参数字符串，groups: undefined]，没匹配到则返回null
 
 var str = "Hello world hello";
 //字面量创建

@@ -98,7 +98,8 @@ aQuery.prototype = {
 
 aQuery.prototype.init.prototype = aQuery.prototype;
 
-console.log(aQuery().name()); //20
+aQuery(window);
+//console.log(aQuery().name()); //20
 
 // aQuery().init().name()
 
