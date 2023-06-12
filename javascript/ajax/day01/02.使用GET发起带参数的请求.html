@@ -15,7 +15,7 @@
       $(function () {
         $("#btnGETINFO").on("click", function () {
           $.get(
-            "http://127.0.0.1:8083/web/api/getbooks",
+            "http://127.0.0.1:8083/web/ajax/api/getbooks",
             { id: 1 },
             function (res) {
               console.log(res);
