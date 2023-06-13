@@ -12,6 +12,11 @@
     <button id="btnGET">发起GET请求</button>
 
     <script>
+      //jQuery 中 $.get() 函数的功能单一，专门用来发起 get 请求，从而将服务器上的资源请求到客户端来进行使用。
+      //$.get() 函数的语法如下：
+      //$.get(url, [data], [callback])
+
+      
       $(function () {
         $("#btnGET").on("click", function () {
           $.ajax({
