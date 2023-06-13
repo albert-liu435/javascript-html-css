@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../../jquery-2.0.3.js"></script>
+    <script src="../../sizzle.js"></script>
+    <style>
+      div > div.Aaron p span.red {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <div id="text">
+      <p>
+        <input type="text" />
+      </p>
+      <div class="aaron">
+        <input type="checkbox" name="readme" />
+        <p>Sizzle</p>
+      </div>
+    </div> -->
+
+    <!-- <script>
+      console.log(document.getElementById("text"));
+
+      console.log(document.getElementsByTagName("input"));
+
+      console.log(document.getElementsByName("readme"));
+
+      window.onload = function () {
+        console.log(Sizzle("div > div.aaron"));
+        console.log(document.querySelectorAll("div > div.aaron"));
+
+        console.log(Sizzle("div > div.aaron p span.red"));
+
+        console.log(document.querySelectorAll("div > div.Aaron p span.red"));
+      };
+    </script> -->
+
+    <div>
+      <div class="Aaron">
+        <p><span>s1</span></p>
+        <p><span>s2</span></p>
+        <p><span>s3</span></p>
+        <p><span class="red">s4</span></p>
+      </div>
+    </div>
+  </body>
+</html>

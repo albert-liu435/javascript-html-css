@@ -161,7 +161,7 @@ console.log( reg.test("ABCDEFGH") ); // false 全是大写字母
 console.log( reg.test("ab23C") ); // false 不足6位
 console.log( reg.test("ABCDEF234") ); // true 大写字母和数字
 console.log( reg.test("abcdEF234") ); // true 三者都有
-4.3.5 解惑上面的正则看起来比较复杂，只要理解了第二步，其余就全部理解了。
+//4.3.5 解惑上面的正则看起来比较复杂，只要理解了第二步，其余就全部理解了。
 // /(?=.*[0-9])^[0-9A-Za-z]{6,12}$/
 //对于这个正则，我们只需要弄明白(?=.*[0-9])^即可。
 //分开来看就是(?=.*[0-9])和^。

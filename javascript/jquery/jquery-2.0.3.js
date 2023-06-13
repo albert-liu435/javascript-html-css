@@ -102,6 +102,15 @@
 
     constructor: jQuery,
 
+    //Query 构造器
+
+    //由此可见，从本质上来说，构建的jQuery对象，其实不仅仅只是dom，还有很多附加的元素，用数组的方式存储，当然各种组合有不一样，但是存储的方式是一样的
+
+    //总的来说分2大类：
+
+    //单个DOM元素，如$(ID),直接把DOM元素作数组传递给this对象
+    // 多个DOM元素，集合形式，可以通过CSS选择器匹配是有的DOM元素，过滤操作,构建数据结构
+    // CSS选择器是通过jQuery.find(selector)函数完成的，通过它可以分析选择器字符串，并在DOM文档树中查找符合语法的元素集合
     init: function (selector, context, rootjQuery) {
       var match, elem;
 
@@ -114,6 +123,10 @@
       //匹配模式一：$("#id")
       //1. 进入字符串处理
       //处理字符串
+
+      //匹配模式二：<htmltag>
+      //重复的地方跳过直接看处理接口
+
       // Handle HTML strings
       if (typeof selector === "string") {
         //2. 发现不是 "<"开始，">"结尾 $('<p id="test">My <em>new</em> text</p>')这种的情况,如果selector是html标签组成的话，直接match = [ null, selector, null ];而不用正则检查
@@ -125,23 +138,28 @@
           // Assume that strings that start and end with <> are HTML and skip the regex check
           match = [null, selector, null];
         } else {
-          //否则的话需要match = rquickExpr.exec( selector )
+          //3.否则的话需要match = rquickExpr.exec( selector )
           match = rquickExpr.exec(selector);
         }
 
-        //匹配的html或确保没有上下文指定为# id
+        //4.匹配的html或确保没有上下文指定为# id
         // Match html or make sure no context is specified for #id
         if (match && (match[1] || !context)) {
-          // match[1]存在，处理(html)−>(array),,也就是处理的是html方式
+          // 5.match[1]存在，处理(html)−>(array),,也就是处理的是html方式
           // HANDLE: $(html) -> $(array)
           if (match[1]) {
             context = context instanceof jQuery ? context[0] : context;
 
+            //jQuery.merge( first, second ) 合并两个数组内容到第一个数组。
             // scripts is true for back-compat
             jQuery.merge(
               this,
               jQuery.parseHTML(
                 match[1],
+                //ownerDocument和 documentElement的区别
+                //ownerDocument是Node对象的一个属性，返回的是某个元素的根节点文档对象：即document对象
+                //documentElement是Document对象的属性，返回的是文档根节点
+                //对于HTML文档来说，documentElement是<html>标签对应的Element对象，ownerDocument是document对象
                 context && context.nodeType
                   ? context.ownerDocument || context
                   : document,
@@ -167,7 +185,7 @@
 
             // HANDLE: $(#id)
           } else {
-            //处理ID
+            //6.处理ID
             //至此本次检索完毕!可以看到this就是jQuery工厂化后返回的对象
             elem = document.getElementById(match[2]);
 
@@ -178,7 +196,7 @@
               this.length = 1;
               this[0] = elem;
             }
-
+            //this.selector="#id"
             this.context = document;
             this.selector = selector;
             return this;
@@ -2470,6 +2488,10 @@
     setFilters.prototype = Expr.filters = Expr.pseudos;
     Expr.setFilters = new setFilters();
 
+    ////假设传入进来的选择器是：div > p + .aaron[type="checkbox"], #id:first-child
+    //这里可以分为两个规则：div > p + .aaron[type="checkbox"] 以及 #id:first-child
+    //返回的需要是一个Token序列
+    //Sizzle的Token格式如下 ：{value:'匹配到的字符串', type:'对应的Token类型', matches:'正则匹配到的一个结构'}
     function tokenize(selector, parseOnly) {
       var matched,
         match,
@@ -2479,54 +2501,103 @@
         groups,
         preFilters,
         cached = tokenCache[selector + " "];
+  //这里的soFar是表示目前还未分析的字符串剩余部分
+  //groups表示目前已经匹配到的规则组，在这个例子里边，groups的长度最后是2，存放的是每个规则对应的Token序列
 
+    //如果cache里边有，直接拿出来即可
       if (cached) {
         return parseOnly ? 0 : cached.slice(0);
       }
-
+    //初始化
       soFar = selector;
-      groups = [];
-      preFilters = Expr.preFilter;
+      groups = []; //这是最后要返回的结果，一个二维数组
+          //比如"title,div > :nth-child(even)"解析下面的符号流
+    // [ [{value:"title",type:"TAG",matches:["title"]}],
+    //   [{value:"div",type:["TAG",matches:["div"]},
+    //    {value:">", type: ">"},
+    //    {value:":nth-child(even)",type:"CHILD",matches:["nth",
+    //     "child","even",2,0,undefined,undefined,undefined]}
+    //   ]
+    // ]
+    //有多少个并联选择器，里面就有多少个数组，数组里面是拥有value与type的对象
 
+    //这里的预处理器为了对匹配到的Token适当做一些调整
+     //自行查看源码，其实就是正则匹配到的内容的一个预处理
+      preFilters = Expr.preFilter;
+    //递归检测字符串
+    //比如"div > p + .aaron input[type="checkbox"]"
       while (soFar) {
         // Comma and first run
+                // 以第一个逗号切割选择符,然后去掉前面的部分
         if (!matched || (match = rcomma.exec(soFar))) {
           if (match) {
+            //如果匹配到逗号
             // Don't consume trailing commas as valid
             soFar = soFar.slice(match[0].length) || soFar;
           }
+           //往规则组里边压入一个Token序列，目前Token序列还是空的
           groups.push((tokens = []));
         }
 
         matched = false;
 
         // Combinators
+                //将刚才前面的部分以关系选择器再进行划分
+        //先处理这几个特殊的Token ： >, +, 空格, ~
+        //因为他们比较简单，并且是单字符的
         if ((match = rcombinators.exec(soFar))) {
+           //获取到匹配的字符
           matched = match.shift();
+          //放入Token序列中
           tokens.push({
             value: matched,
             // Cast descendant combinators to space
             type: match[0].replace(rtrim, " "),
           });
+          //剩余还未分析的字符串需要减去这段已经分析过的
           soFar = soFar.slice(matched.length);
         }
+         // Filters
+        //这里开始分析这几种Token ： TAG, ID, CLASS, ATTR, CHILD, PSEUDO, NAME
+        //将每个选择器组依次用ID,TAG,CLASS,ATTR,CHILD,PSEUDO这些正则进行匹配
+        //Expr.filter里边对应地 就有这些key
 
-        // Filters
+      /**
+     *
+     *
+     *matchExpr 过滤正则
+        ATTR: /^\[[\x20\t\r\n\f]*((?:\\.|[\w-]|[^\x00-\xa0])+)[\x20\t\r\n\f]*(?:([*^$|!~]?=)[\x20\t\r\n\f]*(?:(['"])((?:\\.|[^\\])*?)\3|((?:\\.|[\w#-]|[^\x00-\xa0])+)|)|)[\x20\t\r\n\f]*\]/
+        CHILD: /^:(only|first|last|nth|nth-last)-(child|of-type)(?:\([\x20\t\r\n\f]*(even|odd|(([+-]|)(\d*)n|)[\x20\t\r\n\f]*(?:([+-]|)[\x20\t\r\n\f]*(\d+)|))[\x20\t\r\n\f]*\)|)/i
+        CLASS: /^\.((?:\\.|[\w-]|[^\x00-\xa0])+)/
+        ID: /^#((?:\\.|[\w-]|[^\x00-\xa0])+)/
+        PSEUDO: /^:((?:\\.|[\w-]|[^\x00-\xa0])+)(?:\(((['"])((?:\\.|[^\\])*?)\3|((?:\\.|[^\\()[\]]|\[[\x20\t\r\n\f]*((?:\\.|[\w-]|[^\x00-\xa0])+)[\x20\t\r\n\f]*(?:([*^$|!~]?=)[\x20\t\r\n\f]*(?:(['"])((?:\\.|[^\\])*?)\8|((?:\\.|[\w#-]|[^\x00-\xa0])+)|)|)[\x20\t\r\n\f]*\])*)|.*)\)|)/
+        TAG: /^((?:\\.|[\w*-]|[^\x00-\xa0])+)/
+        bool: /^(?:checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped)$/i
+        needsContext: /^[\x20\t\r\n\f]*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\([\x20\t\r\n\f]*((?:-\d)?\d*)[\x20\t\r\n\f]*\)|)(?=[^-]|$)/i
+     *
+     */
+        //如果通过正则匹配到了Token格式：match = matchExpr[ type ].exec( soFar )
+        //然后看看需不需要预处理：!preFilters[ type ]
+        //如果需要 ，那么通过预处理器将匹配到的处理一下 ： match = preFilters[ type ]( match )
         for (type in Expr.filter) {
           if (
             (match = matchExpr[type].exec(soFar)) &&
             (!preFilters[type] || (match = preFilters[type](match)))
           ) {
             matched = match.shift();
+            //放入Token序列中
             tokens.push({
               value: matched,
               type: type,
               matches: match,
             });
+                            //剩余还未分析的字符串需要减去这段已经分析过的
             soFar = soFar.slice(matched.length);
           }
         }
-
+         //如果到了这里都还没matched到，那么说明这个选择器在这里有错误
+            //直接中断词法分析过程
+           //这就是Sizzle对词法分析的异常处理
         if (!matched) {
           break;
         }
@@ -2535,6 +2606,9 @@
       // Return the length of the invalid excess
       // if we're just parsing
       // Otherwise, throw an error or return tokens
+          //放到tokenCache函数里进行缓存
+    //如果只需要这个接口检查选择器的合法性，直接就返回soFar的剩余长度，倘若是大于零，说明选择器不合法
+    //其余情况，如果soFar长度大于零，抛出异常；否则把groups记录在cache里边并返回，
       return parseOnly
         ? soFar.length
         : soFar
