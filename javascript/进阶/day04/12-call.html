@@ -8,6 +8,8 @@
   </head>
 
   <body>
+    <!-- https://blog.csdn.net/dkm123456/article/details/110497349 -->
+    <!-- https://www.w3school.com.cn/js/js_function_call.asp -->
     <script>
       //3.2 改变this
       //  1. call() –了解
@@ -33,6 +35,26 @@
       // 1. 调用函数
       // 2. 改变 this 指向
       fn.call(obj, 1, 2);
+
+      var me = {
+        name: "我",
+        /*sendMsg:function(target,content){
+          console.log("【"+this.name+"】给【"+target+"】发送了短信："+content);
+        }*/
+      };
+
+      var friendA = {
+        name: "朋友A",
+        sendMsg: function (target, content) {
+          console.log(
+            "【" + this.name + "】给【" + target + "】发送了短信：" + content
+          );
+        },
+      };
+
+      friendA.sendMsg("朋友B", "你好啊老朋友！");
+      // me.sendMsg("朋友B", "你好啊老朋友！");
+      friendA.sendMsg.call(me, "朋友B", "你好啊老朋友！");
     </script>
   </body>
 </html>

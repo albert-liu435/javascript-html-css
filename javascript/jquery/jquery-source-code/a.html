@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../jquery-1.9.0.js"></script>
+  </head>
+  <body>
+    <script>
+      //each接受2个参数， 数组[1,2,3],回调函数
+      $.each([1, 2, 3], function (key, value) {
+        console.log("[" + key + "]=" + value);
+        return true;
+      });
+      //each接受3个参数， 数组[1,2,3],回调函数，一个额外的参数数组args=[4,5]
+      $.each(
+        [1, 2, 3],
+        function (arg1, arg2) {
+          console.log(this + "," + arg1 + "," + arg2);
+        },
+        [4, 5]
+      );
+    </script>
+  </body>
+</html>

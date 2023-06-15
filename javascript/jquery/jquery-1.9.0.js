@@ -44,6 +44,12 @@ http://rapheal.sinaapp.com/tag/%e6%ba%90%e7%a0%81/page/2/
     core_toString = class2type.toString,
     core_hasOwn = class2type.hasOwnProperty,
     core_trim = core_version.trim,
+    //   //等同以下代码：
+    // core_concat = Array.prototype.concat,
+    // //文章一开始的介绍有稍微提到prototype
+    // //core_deletedIds是一个数组实例
+    // //core_deletedIds.concat方法就相当于调了Array类中的成员方法concat。
+
     // Define a local copy of jQuery
     jQuery = function (selector, context) {
       // The jQuery object is actually just the init constructor 'enhanced'
@@ -630,24 +636,36 @@ http://rapheal.sinaapp.com/tag/%e6%ba%90%e7%a0%81/page/2/
       );
     },
 
+    //其实我觉得jQuery这段each代码写得一点也不好
+//代码重复率太高了！我下边对它进行解析并改造
+//貌似看注释是为了让代码运行更快，具体没测试。
+//源码如下
     // args is for internal usage only
     each: function (obj, callback, args) {
+
+       //obj 是需要遍历的数组或者对象
+  //callback是处理数组/对象的每个元素的回调函数，它的返回值实际会中断循环的过程
+  //
+
       var value,
         i = 0,
         length = obj.length,
-        isArray = isArraylike(obj);
+        isArray = isArraylike(obj);////判断是不是数组
 
       if (args) {
-        if (isArray) {
+        if (isArray) {//数组
           for (; i < length; i++) {
             value = callback.apply(obj[i], args);
-
+        //相当于:
+        //args = [arg1, arg2, arg3];
+        //callback(args1, args2, args3)。然后callback里边的this指向了obj[i]
             if (value === false) {
+               //注意到，当callback函数返回值会false的时候，注意是全等！循环结束
               break;
             }
           }
-        } else {
-          for (i in obj) {
+        } else {//非数组
+          for (i in obj) {//遍历对象的做法
             value = callback.apply(obj[i], args);
 
             if (value === false) {
@@ -661,7 +679,7 @@ http://rapheal.sinaapp.com/tag/%e6%ba%90%e7%a0%81/page/2/
         if (isArray) {
           for (; i < length; i++) {
             value = callback.call(obj[i], i, obj[i]);
-
+ //相当于callback(i, obj[i])。然后callback里边的this指向了obj[i]
             if (value === false) {
               break;
             }
@@ -680,12 +698,30 @@ http://rapheal.sinaapp.com/tag/%e6%ba%90%e7%a0%81/page/2/
       return obj;
     },
 
+    //     解析：首先尝试使用字符串原生的trim方法（非IE支持），若不支持，使用String.prototype.trim.call(“\uFEFF\xA0”)，若上述两个方法都不支持，使用自定义的正则replace()方法，清空两边的空格或特殊字符。
+
+    // \uFEFF：某些软件，在保存一个以UTF-8编码的文件时，会在文件开始的地方插入三个不可见的字符（0xEF 0xBB 0xBF，即BOM），转码后是\uFEFF，因此在读取时需要自己去掉这些字符。
+
+    // \xA0：HTML中常见的 。
+    //\uFEFF是utf8的字节序标记
+    //“\xA0″是全角空格
+
+    // 剖析之:
+
+    // var core_trim = String.prototype.trim;
+    // if (core_trim && !core_trim.call(“\uFEFF\xA0″))
+    // 相当于：
+    // if (String.prototype.trim && “\uFEFF\xA0″.trim() !== “”)
+    // 高级的浏览器已经支持原生的String的trim方法，但是jQuery还为了避免它没法解析全角空白，所以加多了一个判断：”\uFEFF\xA0″.trim() !== “”
+
     // Use native String.trim function wherever possible
     trim:
       core_trim && !core_trim.call("\uFEFF\xA0")
+      //如果以上条件成立了，那就直接用原生的trim函数就好了，展开也即是
         ? function (text) {
             return text == null ? "" : core_trim.call(text);
           }
+          //如果上述条件不成立了，那jQuery就自己实现一个trim方法：
         : // Otherwise use our own trimming functionality
           function (text) {
             return text == null ? "" : (text + "").replace(rtrim, "");
@@ -962,6 +998,7 @@ http://rapheal.sinaapp.com/tag/%e6%ba%90%e7%a0%81/page/2/
     }
   );
 
+  //判断是不是数组
   function isArraylike(obj) {
     var length = obj.length,
       type = jQuery.type(obj);
