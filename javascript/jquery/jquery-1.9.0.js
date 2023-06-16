@@ -637,35 +637,37 @@ http://rapheal.sinaapp.com/tag/%e6%ba%90%e7%a0%81/page/2/
     },
 
     //其实我觉得jQuery这段each代码写得一点也不好
-//代码重复率太高了！我下边对它进行解析并改造
-//貌似看注释是为了让代码运行更快，具体没测试。
-//源码如下
+    //代码重复率太高了！我下边对它进行解析并改造
+    //貌似看注释是为了让代码运行更快，具体没测试。
+    //源码如下
     // args is for internal usage only
     each: function (obj, callback, args) {
-
-       //obj 是需要遍历的数组或者对象
-  //callback是处理数组/对象的每个元素的回调函数，它的返回值实际会中断循环的过程
-  //
+      //obj 是需要遍历的数组或者对象
+      //callback是处理数组/对象的每个元素的回调函数，它的返回值实际会中断循环的过程
+      //
 
       var value,
         i = 0,
         length = obj.length,
-        isArray = isArraylike(obj);////判断是不是数组
+        isArray = isArraylike(obj); ////判断是不是数组
 
       if (args) {
-        if (isArray) {//数组
+        if (isArray) {
+          //数组
           for (; i < length; i++) {
             value = callback.apply(obj[i], args);
-        //相当于:
-        //args = [arg1, arg2, arg3];
-        //callback(args1, args2, args3)。然后callback里边的this指向了obj[i]
+            //相当于:
+            //args = [arg1, arg2, arg3];
+            //callback(args1, args2, args3)。然后callback里边的this指向了obj[i]
             if (value === false) {
-               //注意到，当callback函数返回值会false的时候，注意是全等！循环结束
+              //注意到，当callback函数返回值会false的时候，注意是全等！循环结束
               break;
             }
           }
-        } else {//非数组
-          for (i in obj) {//遍历对象的做法
+        } else {
+          //非数组
+          for (i in obj) {
+            //遍历对象的做法
             value = callback.apply(obj[i], args);
 
             if (value === false) {
@@ -679,7 +681,7 @@ http://rapheal.sinaapp.com/tag/%e6%ba%90%e7%a0%81/page/2/
         if (isArray) {
           for (; i < length; i++) {
             value = callback.call(obj[i], i, obj[i]);
- //相当于callback(i, obj[i])。然后callback里边的this指向了obj[i]
+            //相当于callback(i, obj[i])。然后callback里边的this指向了obj[i]
             if (value === false) {
               break;
             }
@@ -717,12 +719,13 @@ http://rapheal.sinaapp.com/tag/%e6%ba%90%e7%a0%81/page/2/
     // Use native String.trim function wherever possible
     trim:
       core_trim && !core_trim.call("\uFEFF\xA0")
-      //如果以上条件成立了，那就直接用原生的trim函数就好了，展开也即是
-        ? function (text) {
+        ? //如果以上条件成立了，那就直接用原生的trim函数就好了，展开也即是
+          function (text) {
+           // console.log(core_trim);
             return text == null ? "" : core_trim.call(text);
           }
-          //如果上述条件不成立了，那jQuery就自己实现一个trim方法：
-        : // Otherwise use our own trimming functionality
+        : //如果上述条件不成立了，那jQuery就自己实现一个trim方法：
+          // Otherwise use our own trimming functionality
           function (text) {
             return text == null ? "" : (text + "").replace(rtrim, "");
           },
@@ -742,18 +745,38 @@ http://rapheal.sinaapp.com/tag/%e6%ba%90%e7%a0%81/page/2/
       return ret;
     },
 
+    //     core_deletedIds = [],
+    // core_indexOf = core_deletedIds.indexOf,
+    // //相当于 core_indexOf = Array.indexOf;
+
+    //elem 规定需检索的值。
+    //arr 数组
+    //i 可选的整数参数。规定在数组中开始检索的位置。它的合法取值是 0 到 arr.length - 1。如省略该参数，则将从数组首元素开始检索。
+
     inArray: function (elem, arr, i) {
       var len;
 
       if (arr) {
+        //原生的Array对象支持indexOf方法，直接调用
+
         if (core_indexOf) {
           return core_indexOf.call(arr, elem, i);
         }
 
         len = arr.length;
+        //当i为负数的时候，从数组后边len+i的位置开始索引
+
         i = i ? (i < 0 ? Math.max(0, len + i) : i) : 0;
 
         for (; i < len; i++) {
+          // Skip accessing in sparse arrays
+          //jQuery这里的(i in arr)判断是为了跳过稀疏数组中的元素
+          //例如 var arr = []; arr[2] = 1;
+          //此时 arr == [undefined, undefined, 1]
+          //结果是 => (0 in arr == false) (1 in arr == false) (2 in arr == true)
+          //但是不解的是这里
+          //测试了一下 $.inArray(undefined, arr, 0)是返回-1的
+          //也许你很不解，因为数组中明明第一个元素就是undefined，后边举个例子探讨一下
           // Skip accessing in sparse arrays
           if (i in arr && arr[i] === elem) {
             return i;
@@ -1058,34 +1081,60 @@ http://rapheal.sinaapp.com/tag/%e6%ba%90%e7%a0%81/page/2/
   jQuery.Callbacks = function (options) {
     // Convert options from String-formatted to Object-formatted if needed
     // (we check in cache first)
+    // Convert options from String-formatted to Object-formatted if needed
+    // (we check in cache first)
+    //可以传递字符串："once memory"
+    //也可以传递对象：{once:true, memory:true}
+    //这里还用optionsCache[ options ]缓存住配置对象
+    //生成的配置对象就是{once:true, memory:true}
+
     options =
       typeof options === "string"
         ? optionsCache[options] || createOptions(options)
         : jQuery.extend({}, options);
 
     var // Last fire value (for non-forgettable lists)
-      memory,
+      memory, //是否为memory类型的管理器
       // Flag to know if list was already fired
+      //fire相关==============================================
+      // Flag to know if list was already fired
+      //是否已经fire过
       fired,
       // Flag to know if list is currently firing
+      //当前是否还处于firing过程
       firing,
       // First callback to fire (used internally by add and fireWith)
       firingStart,
       // End of the loop when firing
+      //需要fire的队列长度
       firingLength,
       // Index of currently firing callback (modified by remove if needed)
+      //当前正在firing的回调在队列的索引
       firingIndex,
       // Actual callback list
+      //回调队列
       list = [],
       // Stack of fire calls for repeatable lists
+      //如果不是once的，那么stack会keep住fire所需的上下文跟参数（假设称为事件）
       stack = !options.once && [],
       // Fire callbacks
+      //触发事件
+      //这个函数是内部使用的辅助函数
+      //它被self.fire以及self.fireWith调用
       fire = function (data) {
+        //如果是memory类型管理器
+        //要记住fire的事件data，以便下次add的时候可以重新fire这个事件
+        //看add源码最后一段就知道
         memory = options.memory && data;
         fired = true;
+        //如果设置了开始位置firingStart
         firingIndex = firingStart || 0;
         firingStart = 0;
+        //思考一下为什么要firingLength呢
+        //其实是因为在fire的时候还有可能在add回调，所以要维护这里的队列长度
+        //有点像是为了保证并发
         firingLength = list.length;
+        //开始fire============================
         firing = true;
         for (; list && firingIndex < firingLength; firingIndex++) {
           if (
