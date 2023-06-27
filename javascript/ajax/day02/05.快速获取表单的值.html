@@ -29,6 +29,9 @@
       // 第二种方式
       $('#f1').on('submit', function (e) {
         e.preventDefault()
+        //1. serialize()函数
+        //为了简化表单中数据的获取操作，jQuery 提供了 serialize() 函数，其语法格式如下：
+        //serialize() 函数的好处：可以一次性获取到表单中的所有的数据。
         var data = $('#f1').serialize()
         console.log(data)
       })
